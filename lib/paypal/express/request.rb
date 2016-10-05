@@ -177,7 +177,8 @@ module Paypal
       def refund!(transaction_id, options = {})
         params = {
           :TRANSACTIONID => transaction_id,
-          :REFUNDTYPE => :Full
+          :REFUNDTYPE => :Full,
+          :version  => Paypal.api_version
         }
         if options[:invoice_id]
           params[:INVOICEID] = options[:invoice_id]
