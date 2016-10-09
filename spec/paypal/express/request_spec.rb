@@ -584,7 +584,8 @@ describe Paypal::Express::Request do
       instance._method_.should == :RefundTransaction
       instance._sent_params_.should == {
         :TRANSACTIONID => 'transaction_id',
-        :REFUNDTYPE => :Full
+        :REFUNDTYPE => :Full,
+        :version => Paypal.api_version
       }
     end
   end
