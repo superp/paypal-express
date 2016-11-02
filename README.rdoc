@@ -6,9 +6,15 @@ Express Checkout for Digital Goods is also supported.
 
 {<img src="https://travis-ci.org/ianfleeton/paypal-express.svg" />}[https://travis-ci.org/ianfleeton/paypal-express]
 
+
+== Why this fork
+
+The original owner has not been updating the gem for almost a year now, breaking compatibility with the existing Paypal APIs. You can use this fork which is actively mantained to ensure it is working properly.
+
 == Installation
 
-  gem install paypal-express
+Add to your Gemfile
+  gem 'paypal-express', github: 'ianfleeton/paypal-express'
 
 == Usage
 
