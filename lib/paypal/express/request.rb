@@ -88,7 +88,8 @@ module Paypal
 
       def subscribe!(token, recurring_profile)
         params = {
-          :TOKEN => token
+          :TOKEN => token,
+          :version => Paypal.api_version
         }
         params.merge! recurring_profile.to_params
         response = self.request :CreateRecurringPaymentsProfile, params
