@@ -395,7 +395,8 @@ describe Paypal::Express::Request do
         :BILLINGPERIOD => :Month,
         :TAXAMT => '0.00',
         :PROFILESTARTDATE => '2011-02-08 09:00:00',
-        :TOTALBILLINGCYCLES => 0
+        :TOTALBILLINGCYCLES => 0,
+        :version => Paypal.api_version
       }
     end
   end
