@@ -414,7 +414,8 @@ describe Paypal::Express::Request do
       end.to request_to nvp_endpoint, :post
       instance._method_.should == :GetRecurringPaymentsProfileDetails
       instance._sent_params_.should == {
-        :PROFILEID => 'profile_id'
+        :PROFILEID => 'profile_id',
+        :version => Paypal.api_version
       }
     end
   end
@@ -433,7 +434,8 @@ describe Paypal::Express::Request do
       instance._method_.should == :ManageRecurringPaymentsProfileStatus
       instance._sent_params_.should == {
         :ACTION => :Cancel,
-        :PROFILEID => 'profile_id'
+        :PROFILEID => 'profile_id',
+        :version => Paypal.api_version
       }
     end
   end
@@ -452,7 +454,8 @@ describe Paypal::Express::Request do
       instance._method_.should == :ManageRecurringPaymentsProfileStatus
       instance._sent_params_.should == {
         :ACTION => :Cancel,
-        :PROFILEID => 'profile_id'
+        :PROFILEID => 'profile_id',
+        :version => Paypal.api_version
       }
     end
   end
@@ -471,7 +474,8 @@ describe Paypal::Express::Request do
       instance._method_.should == :ManageRecurringPaymentsProfileStatus
       instance._sent_params_.should == {
         :ACTION => :Suspend,
-        :PROFILEID => 'profile_id'
+        :PROFILEID => 'profile_id',
+        :version => Paypal.api_version 
       }
     end
   end
@@ -490,7 +494,8 @@ describe Paypal::Express::Request do
       instance._method_.should == :ManageRecurringPaymentsProfileStatus
       instance._sent_params_.should == {
         :ACTION => :Reactivate,
-        :PROFILEID => 'profile_id'
+        :PROFILEID => 'profile_id',
+        :version => Paypal.api_version
       }
     end
   end

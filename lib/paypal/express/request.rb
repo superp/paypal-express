@@ -98,7 +98,8 @@ module Paypal
 
       def subscription(profile_id)
         params = {
-          :PROFILEID => profile_id
+          :PROFILEID => profile_id,
+          :version => Paypal.api_version
         }
         response = self.request :GetRecurringPaymentsProfileDetails, params
         Response.new response
@@ -107,7 +108,8 @@ module Paypal
       def renew!(profile_id, action, options = {})
         params = {
           :PROFILEID => profile_id,
-          :ACTION => action
+          :ACTION => action,
+          :version => Paypal.api_version
         }
         if options[:note]
           params[:NOTE] = options[:note]
