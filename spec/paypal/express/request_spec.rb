@@ -414,7 +414,8 @@ describe Paypal::Express::Request do
       end.to request_to nvp_endpoint, :post
       instance._method_.should == :GetRecurringPaymentsProfileDetails
       instance._sent_params_.should == {
-        :PROFILEID => 'profile_id'
+        :PROFILEID => 'profile_id',
+        :version => Paypal.api_version
       }
     end
   end
@@ -433,7 +434,8 @@ describe Paypal::Express::Request do
       instance._method_.should == :ManageRecurringPaymentsProfileStatus
       instance._sent_params_.should == {
         :ACTION => :Cancel,
-        :PROFILEID => 'profile_id'
+        :PROFILEID => 'profile_id',
+        :version => Paypal.api_version
       }
     end
   end
@@ -452,7 +454,8 @@ describe Paypal::Express::Request do
       instance._method_.should == :ManageRecurringPaymentsProfileStatus
       instance._sent_params_.should == {
         :ACTION => :Cancel,
-        :PROFILEID => 'profile_id'
+        :PROFILEID => 'profile_id',
+        :version => Paypal.api_version
       }
     end
   end
@@ -471,7 +474,8 @@ describe Paypal::Express::Request do
       instance._method_.should == :ManageRecurringPaymentsProfileStatus
       instance._sent_params_.should == {
         :ACTION => :Suspend,
-        :PROFILEID => 'profile_id'
+        :PROFILEID => 'profile_id',
+        :version => Paypal.api_version 
       }
     end
   end
@@ -490,7 +494,8 @@ describe Paypal::Express::Request do
       instance._method_.should == :ManageRecurringPaymentsProfileStatus
       instance._sent_params_.should == {
         :ACTION => :Reactivate,
-        :PROFILEID => 'profile_id'
+        :PROFILEID => 'profile_id',
+        :version => Paypal.api_version
       }
     end
   end
@@ -508,7 +513,8 @@ describe Paypal::Express::Request do
       end.to request_to nvp_endpoint, :post
       instance._method_.should == :CreateBillingAgreement
       instance._sent_params_.should == {
-        :TOKEN => 'token'
+        :TOKEN => 'token',
+        :version => Paypal.api_version
       }
     end
   end
@@ -526,7 +532,8 @@ describe Paypal::Express::Request do
       end.to request_to nvp_endpoint, :post
       instance._method_.should == :BillAgreementUpdate
       instance._sent_params_.should == {
-        :REFERENCEID => 'reference_id'
+        :REFERENCEID => 'reference_id',
+        :version => Paypal.api_version
       }
     end
   end
@@ -547,7 +554,8 @@ describe Paypal::Express::Request do
         :REFERENCEID => 'billing_agreement_id',
         :AMT => '1000.00',
         :PAYMENTACTION => :Sale,
-        :CURRENCYCODE => :JPY
+        :CURRENCYCODE => :JPY,
+        :version => Paypal.api_version
       }
     end
   end
@@ -566,7 +574,8 @@ describe Paypal::Express::Request do
       instance._method_.should == :BillAgreementUpdate
       instance._sent_params_.should == {
         :REFERENCEID => 'reference_id',
-        :BillingAgreementStatus => :Canceled
+        :BillingAgreementStatus => :Canceled,
+        :version => Paypal.api_version
       }
     end
   end

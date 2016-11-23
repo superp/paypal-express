@@ -98,7 +98,8 @@ module Paypal
 
       def subscription(profile_id)
         params = {
-          :PROFILEID => profile_id
+          :PROFILEID => profile_id,
+          :version => Paypal.api_version
         }
         response = self.request :GetRecurringPaymentsProfileDetails, params
         Response.new response
@@ -107,7 +108,8 @@ module Paypal
       def renew!(profile_id, action, options = {})
         params = {
           :PROFILEID => profile_id,
-          :ACTION => action
+          :ACTION => action,
+          :version => Paypal.api_version
         }
         if options[:note]
           params[:NOTE] = options[:note]
@@ -133,7 +135,8 @@ module Paypal
 
       def agree!(token, options = {})
         params = {
-          :TOKEN => token
+          :TOKEN => token,
+          :version => Paypal.api_version
         }
         if options[:max_amount]
           params[:MAXAMT] = Util.formatted_amount options[:max_amount]
@@ -144,7 +147,8 @@ module Paypal
 
       def agreement(reference_id)
         params = {
-          :REFERENCEID => reference_id
+          :REFERENCEID => reference_id,
+          :version => Paypal.api_version
         }
         response = self.request :BillAgreementUpdate, params
         Response.new response
@@ -154,6 +158,7 @@ module Paypal
         params = {
           :REFERENCEID => reference_id,
           :AMT => Util.formatted_amount(amount),
+          :version => Paypal.api_version,
           :PAYMENTACTION => options[:payment_action] || :Sale
         }
         if options[:currency_code]
@@ -166,7 +171,8 @@ module Paypal
       def revoke!(reference_id)
         params = {
           :REFERENCEID => reference_id,
-          :BillingAgreementStatus => :Canceled
+          :BillingAgreementStatus => :Canceled,
+          :version => Paypal.api_version
         }
         response = self.request :BillAgreementUpdate, params
         Response.new response
