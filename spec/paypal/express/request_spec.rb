@@ -122,8 +122,7 @@ describe Paypal::Express::Request do
         :PAYMENTREQUEST_0_TAXAMT => "0.00",
         :PAYMENTREQUEST_0_SHIPPINGAMT => "0.00",
         :REQCONFIRMSHIPPING => 0,
-        :NOSHIPPING => 1,
-        :version => Paypal.api_version
+        :NOSHIPPING => 1
       }
     end
 
@@ -139,8 +138,7 @@ describe Paypal::Express::Request do
         :PAYMENTREQUEST_0_AMT => '1000.00',
         :PAYMENTREQUEST_0_TAXAMT => "0.00",
         :PAYMENTREQUEST_0_SHIPPINGAMT => "0.00",
-        :ALLOWNOTE => 0,
-        :version => Paypal.api_version
+        :ALLOWNOTE => 0
       }
     end
 
@@ -176,8 +174,7 @@ describe Paypal::Express::Request do
           :CANCELURL => cancel_url,
           :PAYMENTREQUEST_0_AMT => '1000.00',
           :PAYMENTREQUEST_0_TAXAMT => "0.00",
-          :PAYMENTREQUEST_0_SHIPPINGAMT => "0.00",
-          :version => Paypal.api_version
+          :PAYMENTREQUEST_0_SHIPPINGAMT => "0.00"
         }
       end
     end
@@ -195,8 +192,7 @@ describe Paypal::Express::Request do
           :CANCELURL => cancel_url,
           :PAYMENTREQUEST_0_AMT => '0.00',
           :PAYMENTREQUEST_0_TAXAMT => "0.00",
-          :PAYMENTREQUEST_0_SHIPPINGAMT => "0.00",
-          :version => Paypal.api_version
+          :PAYMENTREQUEST_0_SHIPPINGAMT => "0.00"
         }
       end
     end
@@ -214,8 +210,7 @@ describe Paypal::Express::Request do
           :CANCELURL => cancel_url,
           :PAYMENTREQUEST_0_AMT => '0.00',
           :PAYMENTREQUEST_0_TAXAMT => "0.00",
-          :PAYMENTREQUEST_0_SHIPPINGAMT => "0.00",
-          :version => Paypal.api_version
+          :PAYMENTREQUEST_0_SHIPPINGAMT => "0.00"
         }
       end
     end
@@ -233,10 +228,7 @@ describe Paypal::Express::Request do
         instance.details 'token'
       end.to request_to nvp_endpoint, :post
       instance._method_.should == :GetExpressCheckoutDetails
-      instance._sent_params_.should == {
-        :TOKEN => 'token',
-        :version => Paypal.api_version
-      }
+      instance._sent_params_.should == { TOKEN: 'token' }
     end
   end
 
@@ -345,8 +337,7 @@ describe Paypal::Express::Request do
         :PAYMENTREQUEST_0_DESC => 'Instant Payment Request',
         :PAYMENTREQUEST_0_AMT => '1000.00',
         :PAYMENTREQUEST_0_TAXAMT => "0.00",
-        :PAYMENTREQUEST_0_SHIPPINGAMT => "0.00",
-        :version => Paypal.api_version
+        :PAYMENTREQUEST_0_SHIPPINGAMT => "0.00"
       }
     end
 
@@ -395,8 +386,7 @@ describe Paypal::Express::Request do
         :BILLINGPERIOD => :Month,
         :TAXAMT => '0.00',
         :PROFILESTARTDATE => '2011-02-08 09:00:00',
-        :TOTALBILLINGCYCLES => 0,
-        :version => Paypal.api_version
+        :TOTALBILLINGCYCLES => 0
       }
     end
   end
@@ -413,10 +403,7 @@ describe Paypal::Express::Request do
         instance.subscription 'profile_id'
       end.to request_to nvp_endpoint, :post
       instance._method_.should == :GetRecurringPaymentsProfileDetails
-      instance._sent_params_.should == {
-        :PROFILEID => 'profile_id',
-        :version => Paypal.api_version
-      }
+      instance._sent_params_.should == { PROFILEID: 'profile_id' }
     end
   end
 
@@ -434,8 +421,7 @@ describe Paypal::Express::Request do
       instance._method_.should == :ManageRecurringPaymentsProfileStatus
       instance._sent_params_.should == {
         :ACTION => :Cancel,
-        :PROFILEID => 'profile_id',
-        :version => Paypal.api_version
+        :PROFILEID => 'profile_id'
       }
     end
   end
@@ -454,8 +440,7 @@ describe Paypal::Express::Request do
       instance._method_.should == :ManageRecurringPaymentsProfileStatus
       instance._sent_params_.should == {
         :ACTION => :Cancel,
-        :PROFILEID => 'profile_id',
-        :version => Paypal.api_version
+        :PROFILEID => 'profile_id'
       }
     end
   end
@@ -474,8 +459,7 @@ describe Paypal::Express::Request do
       instance._method_.should == :ManageRecurringPaymentsProfileStatus
       instance._sent_params_.should == {
         :ACTION => :Suspend,
-        :PROFILEID => 'profile_id',
-        :version => Paypal.api_version 
+        :PROFILEID => 'profile_id'
       }
     end
   end
@@ -494,8 +478,7 @@ describe Paypal::Express::Request do
       instance._method_.should == :ManageRecurringPaymentsProfileStatus
       instance._sent_params_.should == {
         :ACTION => :Reactivate,
-        :PROFILEID => 'profile_id',
-        :version => Paypal.api_version
+        :PROFILEID => 'profile_id'
       }
     end
   end
@@ -512,10 +495,7 @@ describe Paypal::Express::Request do
         instance.agree! 'token'
       end.to request_to nvp_endpoint, :post
       instance._method_.should == :CreateBillingAgreement
-      instance._sent_params_.should == {
-        :TOKEN => 'token',
-        :version => Paypal.api_version
-      }
+      instance._sent_params_.should == { TOKEN: 'token' }
     end
   end
 
@@ -532,8 +512,7 @@ describe Paypal::Express::Request do
       end.to request_to nvp_endpoint, :post
       instance._method_.should == :BillAgreementUpdate
       instance._sent_params_.should == {
-        :REFERENCEID => 'reference_id',
-        :version => Paypal.api_version
+        :REFERENCEID => 'reference_id'
       }
     end
   end
@@ -554,8 +533,7 @@ describe Paypal::Express::Request do
         :REFERENCEID => 'billing_agreement_id',
         :AMT => '1000.00',
         :PAYMENTACTION => :Sale,
-        :CURRENCYCODE => :JPY,
-        :version => Paypal.api_version
+        :CURRENCYCODE => :JPY
       }
     end
   end
@@ -574,8 +552,7 @@ describe Paypal::Express::Request do
       instance._method_.should == :BillAgreementUpdate
       instance._sent_params_.should == {
         :REFERENCEID => 'reference_id',
-        :BillingAgreementStatus => :Canceled,
-        :version => Paypal.api_version
+        :BillingAgreementStatus => :Canceled
       }
     end
   end
@@ -594,8 +571,7 @@ describe Paypal::Express::Request do
       instance._method_.should == :RefundTransaction
       instance._sent_params_.should == {
         :TRANSACTIONID => 'transaction_id',
-        :REFUNDTYPE => :Full,
-        :version => Paypal.api_version
+        :REFUNDTYPE => :Full
       }
     end
   end

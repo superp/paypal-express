@@ -60,19 +60,20 @@ describe Paypal::NVP::Request do
   end
 
   describe '#common_params' do
-    {
-      :username => :USER,
-      :password => :PWD,
-      :signature => :SIGNATURE,
-      :subject => :SUBJECT,
-      :version => :VERSION
-    }.each do |option_key, param_key|
+    [
+      [:username, :USER],
+      [:password, :PWD],
+      [:signature, :SIGNATURE],
+      [:subject, :SUBJECT],
+      [:version, :VERSION],
+      [:version, :version]
+    ].each do |method, param_key|
       it "should include :#{param_key}" do
         instance.common_params.should include(param_key)
       end
 
-      it "should set :#{param_key} as #{option_key}" do
-        instance.common_params[param_key].should == instance.send(option_key)
+      it "should set :#{param_key} to return of ##{method}" do
+        instance.common_params[param_key].should == instance.send(method)
       end
     end
   end

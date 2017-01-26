@@ -6,9 +6,8 @@ module Paypal
 
       def setup(payment_requests, return_url, cancel_url, options = {})
         params = {
-          :RETURNURL => return_url,
-          :CANCELURL => cancel_url,
-          :version   => Paypal.api_version
+          RETURNURL: return_url,
+          CANCELURL: cancel_url
         }
         if options[:no_shipping]
           params[:REQCONFIRMSHIPPING] = 0
@@ -37,10 +36,7 @@ module Paypal
       end
 
       def details(token)
-        response = self.request :GetExpressCheckoutDetails, {
-          :TOKEN    => token,
-          :version  => Paypal.api_version
-        }
+        response = self.request :GetExpressCheckoutDetails, { TOKEN: token }
         Response.new response
       end
 
@@ -51,9 +47,8 @@ module Paypal
 
       def checkout!(token, payer_id, payment_requests)
         params = {
-          :TOKEN => token,
-          :PAYERID => payer_id,
-          :version => Paypal.api_version
+          TOKEN: token,
+          PAYERID: payer_id
         }
         Array(payment_requests).each_with_index do |payment_request, index|
           params.merge! payment_request.to_params(index)
@@ -87,20 +82,14 @@ module Paypal
       # Recurring Payment Specific
 
       def subscribe!(token, recurring_profile)
-        params = {
-          :TOKEN => token,
-          :version => Paypal.api_version
-        }
+        params = { TOKEN: token }
         params.merge! recurring_profile.to_params
         response = self.request :CreateRecurringPaymentsProfile, params
         Response.new response
       end
 
       def subscription(profile_id)
-        params = {
-          :PROFILEID => profile_id,
-          :version => Paypal.api_version
-        }
+        params = { PROFILEID: profile_id }
         response = self.request :GetRecurringPaymentsProfileDetails, params
         Response.new response
       end
@@ -108,8 +97,7 @@ module Paypal
       def renew!(profile_id, action, options = {})
         params = {
           :PROFILEID => profile_id,
-          :ACTION => action,
-          :version => Paypal.api_version
+          :ACTION => action
         }
         if options[:note]
           params[:NOTE] = options[:note]
@@ -134,10 +122,7 @@ module Paypal
       # Reference Transaction Specific
 
       def agree!(token, options = {})
-        params = {
-          :TOKEN => token,
-          :version => Paypal.api_version
-        }
+        params = { TOKEN: token }
         if options[:max_amount]
           params[:MAXAMT] = Util.formatted_amount options[:max_amount]
         end
@@ -146,10 +131,7 @@ module Paypal
       end
 
       def agreement(reference_id)
-        params = {
-          :REFERENCEID => reference_id,
-          :version => Paypal.api_version
-        }
+        params = { REFERENCEID: reference_id }
         response = self.request :BillAgreementUpdate, params
         Response.new response
       end
@@ -158,7 +140,6 @@ module Paypal
         params = {
           :REFERENCEID => reference_id,
           :AMT => Util.formatted_amount(amount),
-          :version => Paypal.api_version,
           :PAYMENTACTION => options[:payment_action] || :Sale
         }
         if options[:currency_code]
@@ -171,8 +152,7 @@ module Paypal
       def revoke!(reference_id)
         params = {
           :REFERENCEID => reference_id,
-          :BillingAgreementStatus => :Canceled,
-          :version => Paypal.api_version
+          :BillingAgreementStatus => :Canceled
         }
         response = self.request :BillAgreementUpdate, params
         Response.new response
@@ -184,8 +164,7 @@ module Paypal
       def refund!(transaction_id, options = {})
         params = {
           :TRANSACTIONID => transaction_id,
-          :REFUNDTYPE => :Full,
-          :version  => Paypal.api_version
+          :REFUNDTYPE => :Full
         }
         if options[:invoice_id]
           params[:INVOICEID] = options[:invoice_id]
