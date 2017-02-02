@@ -6,8 +6,6 @@ end
 
 if ENV['RAILS_VERSION']
   gem 'activesupport', ENV['RAILS_VERSION']
-
-  gem 'iconv' if ENV['RAILS_VERSION'] == '~> 2.3'
 end
 
 gemspec
