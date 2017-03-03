@@ -71,6 +71,7 @@ describe Paypal::NVP::Response do
         response.payment_responses.size.should == 1
         payment_response = response.payment_responses.first
         expect(payment_response).to be_instance_of(Paypal::Payment::Response)
+        expect(payment_response.custom).to eq 'custom'
         expect(payment_response.bill_to.normalization_status).to eq 'None'
       end
 
