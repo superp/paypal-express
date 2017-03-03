@@ -1,7 +1,7 @@
 module Paypal
   module Payment
     class Response < Base
-      attr_accessor :amount, :ship_to, :bill_to, :description, :note, :items, :notify_url, :insurance_option_offered, :currency_code, :short_message, :long_message, :error_code, :severity_code, :ack, :transaction_id, :billing_agreement_id, :request_id, :seller_id
+      attr_accessor :amount, :ship_to, :bill_to, :custom, :description, :note, :items, :notify_url, :insurance_option_offered, :currency_code, :short_message, :long_message, :error_code, :severity_code, :ack, :transaction_id, :billing_agreement_id, :request_id, :seller_id
 
       def initialize(attributes = {})
         attrs = attributes.dup
@@ -27,6 +27,7 @@ module Paypal
         @bill_to = Payment::Response::Address.new(
           :owner => attrs.delete(:ADDRESSID),
           :status => attrs.delete(:ADDRESSSTATUS),
+          :normalization_status => attrs.delete(:ADDRESSNORMALIZATIONSTATUS),
           :name => attrs.delete(:BILLINGNAME),
           :zip => attrs.delete(:ZIP),
           :street => attrs.delete(:STREET),
@@ -35,6 +36,7 @@ module Paypal
           :state => attrs.delete(:STATE),
           :country_code => attrs.delete(:COUNTRY)
         )
+        @custom = attrs.delete(:CUSTOM)
         @description = attrs.delete(:DESC)
         @note = attrs.delete(:NOTETEXT)
         @notify_url = attrs.delete(:NOTIFYURL)

@@ -63,9 +63,16 @@ describe Paypal::NVP::Response do
         Paypal.logger.should_not_receive(:warn)
         response = request.details 'token'
         response.payer.identifier.should == '9RWDTMRKKHQ8S'
-        response.payment_responses.size.should == 1
         response.payment_info.size.should == 0
-        response.payment_responses.first.should be_instance_of(Paypal::Payment::Response)
+      end
+
+      it 'records payment response information' do
+        response = request.details 'token'
+        response.payment_responses.size.should == 1
+        payment_response = response.payment_responses.first
+        expect(payment_response).to be_instance_of(Paypal::Payment::Response)
+        expect(payment_response.custom).to eq 'custom'
+        expect(payment_response.bill_to.normalization_status).to eq 'None'
       end
 
       context 'when BILLINGAGREEMENTACCEPTEDSTATUS included' do
@@ -140,6 +147,17 @@ describe Paypal::NVP::Response do
       it 'should handle all attributes' do
         Paypal.logger.should_not_receive(:warn)
         request.renew! 'profile_id', :Cancel
+      end
+    end
+
+    context 'when RefundTransaction response given' do
+      before do
+        fake_response 'RefundTransaction/full'
+      end
+
+      it 'should handle all attributes' do
+        Paypal.logger.should_not_receive(:warn)
+        request.refund! 'transaction-id'
       end
     end
   end
