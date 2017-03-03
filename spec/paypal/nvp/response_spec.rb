@@ -63,9 +63,15 @@ describe Paypal::NVP::Response do
         Paypal.logger.should_not_receive(:warn)
         response = request.details 'token'
         response.payer.identifier.should == '9RWDTMRKKHQ8S'
-        response.payment_responses.size.should == 1
         response.payment_info.size.should == 0
-        response.payment_responses.first.should be_instance_of(Paypal::Payment::Response)
+      end
+
+      it 'records payment response information' do
+        response = request.details 'token'
+        response.payment_responses.size.should == 1
+        payment_response = response.payment_responses.first
+        expect(payment_response).to be_instance_of(Paypal::Payment::Response)
+        expect(payment_response.bill_to.normalization_status).to eq 'None'
       end
 
       context 'when BILLINGAGREEMENTACCEPTEDSTATUS included' do

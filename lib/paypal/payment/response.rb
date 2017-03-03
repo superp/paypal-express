@@ -27,6 +27,7 @@ module Paypal
         @bill_to = Payment::Response::Address.new(
           :owner => attrs.delete(:ADDRESSID),
           :status => attrs.delete(:ADDRESSSTATUS),
+          :normalization_status => attrs.delete(:ADDRESSNORMALIZATIONSTATUS),
           :name => attrs.delete(:BILLINGNAME),
           :zip => attrs.delete(:ZIP),
           :street => attrs.delete(:STREET),
