@@ -9,7 +9,7 @@ describe Paypal::Payment::Common::Amount do
     it 'should not allow nil for attributes' do
       amount = Paypal::Payment::Common::Amount.new
       keys.each do |key|
-        amount.send(key).should == 0
+        expect(amount.send(key)).to eq(0)
       end
     end
 
@@ -20,7 +20,7 @@ describe Paypal::Payment::Common::Amount do
       end
       amount = Paypal::Payment::Common::Amount.new attributes
       keys.each do |key|
-        amount.send(key).should == 100
+        expect(amount.send(key)).to eq(100)
       end
 
       # Float
@@ -29,7 +29,7 @@ describe Paypal::Payment::Common::Amount do
       end
       amount = Paypal::Payment::Common::Amount.new attributes
       keys.each do |key|
-        amount.send(key).should == 10.25
+        expect(amount.send(key)).to eq(10.25)
       end
     end
   end

@@ -24,22 +24,33 @@ describe Paypal::Exception::APIError do
 
     describe "#message" do
       it "aggregates short messages" do
-        error.message.should ==
+        expect(error.message).to eq(
           "PayPal API Error: 'This Express Checkout session has expired.', 'Second short message.'"
+        )
       end
     end
 
     describe '#subject' do
       subject { error.response }
-      its(:raw) { should == params }
+
+      describe '#raw' do
+        subject { super().raw }
+        it { is_expected.to eq(params) }
+      end
       Paypal::Exception::APIError::Response.attribute_mapping.each do |key, attribute|
-        its(attribute) { should == params[key] }
+        describe attribute do
+          subject { super().send(attribute) }
+          it { is_expected.to eq(params[key]) }
+        end
       end
 
       describe '#details' do
         subject { error.response.details.first }
         Paypal::Exception::APIError::Response::Detail.attribute_mapping.each do |key, attribute|
-          its(attribute) { should == params[:"L_#{key}0"] }
+          describe attribute do
+            subject { super().send(attribute) }
+            it { is_expected.to eq(params[:"L_#{key}0"]) }
+          end
         end
       end
     end
@@ -54,25 +65,41 @@ describe Paypal::Exception::APIError do
     end
 
     it 'should warn' do
-      Paypal.logger.should_receive(:warn).with(
+      expect(Paypal.logger).to receive(:warn).with(
         "Ignored Parameter (Paypal::Exception::APIError::Response): UNKNOWN=Unknown"
       )
-      Paypal.logger.should_receive(:warn).with(
+      expect(Paypal.logger).to receive(:warn).with(
         "Ignored Parameter (Paypal::Exception::APIError::Response::Detail): UNKNOWN=Unknown Detail"
       )
       error
     end
     describe '#response' do
       subject { error.response }
-      its(:raw) { should == params }
+
+      describe '#raw' do
+        subject { super().raw }
+        it { is_expected.to eq(params) }
+      end
     end
-    its(:message) { should == "PayPal API Error" }
+
+    describe '#message' do
+      subject { super().message }
+      it { is_expected.to eq("PayPal API Error") }
+    end
   end
 
   context 'otherwise' do
     subject { error }
     let(:params) { 'Failure' }
-    its(:response) { should == params }
-    its(:message) { should == "PayPal API Error" }
+
+    describe '#response' do
+      subject { super().response }
+      it { is_expected.to eq(params) }
+    end
+
+    describe '#message' do
+      subject { super().message }
+      it { is_expected.to eq("PayPal API Error") }
+    end
   end
 end

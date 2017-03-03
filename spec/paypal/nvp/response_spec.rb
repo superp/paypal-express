@@ -33,7 +33,7 @@ describe Paypal::NVP::Response do
   describe '.new' do
     context 'when non-supported attributes are given' do
       it 'should ignore them and warn' do
-        Paypal.logger.should_receive(:warn).with(
+        expect(Paypal.logger).to receive(:warn).with(
           "Ignored Parameter (Paypal::NVP::Response): ignored=Ignore me!"
         )
         Paypal::NVP::Response.new(
@@ -48,9 +48,9 @@ describe Paypal::NVP::Response do
       end
 
       it 'should handle all attributes' do
-        Paypal.logger.should_not_receive(:warn)
+        expect(Paypal.logger).not_to receive(:warn)
         response = request.setup payment_request, return_url, cancel_url
-        response.token.should == 'EC-5YJ90598G69065317'
+        expect(response.token).to eq('EC-5YJ90598G69065317')
       end
     end
 
@@ -60,15 +60,15 @@ describe Paypal::NVP::Response do
       end
 
       it 'should handle all attributes' do
-        Paypal.logger.should_not_receive(:warn)
+        expect(Paypal.logger).not_to receive(:warn)
         response = request.details 'token'
-        response.payer.identifier.should == '9RWDTMRKKHQ8S'
-        response.payment_info.size.should == 0
+        expect(response.payer.identifier).to eq('9RWDTMRKKHQ8S')
+        expect(response.payment_info.size).to eq(0)
       end
 
       it 'records payment response information' do
         response = request.details 'token'
-        response.payment_responses.size.should == 1
+        expect(response.payment_responses.size).to eq(1)
         payment_response = response.payment_responses.first
         expect(payment_response).to be_instance_of(Paypal::Payment::Response)
         expect(payment_response.custom).to eq 'custom'
@@ -81,7 +81,7 @@ describe Paypal::NVP::Response do
         end
 
         it 'should handle all attributes' do
-          Paypal.logger.should_not_receive(:warn)
+          expect(Paypal.logger).not_to receive(:warn)
           response = request.details 'token'
         end
       end
@@ -93,11 +93,11 @@ describe Paypal::NVP::Response do
       end
 
       it 'should handle all attributes' do
-        Paypal.logger.should_not_receive(:warn)
+        expect(Paypal.logger).not_to receive(:warn)
         response = request.checkout! 'token', 'payer_id', payment_request
-        response.payment_responses.size.should == 0
-        response.payment_info.size.should == 1
-        response.payment_info.first.should be_instance_of(Paypal::Payment::Response::Info)
+        expect(response.payment_responses.size).to eq(0)
+        expect(response.payment_info.size).to eq(1)
+        expect(response.payment_info.first).to be_instance_of(Paypal::Payment::Response::Info)
       end
 
       context 'when billing_agreement is included' do
@@ -106,9 +106,9 @@ describe Paypal::NVP::Response do
         end
 
         it 'should have billing_agreement' do
-          Paypal.logger.should_not_receive(:warn)
+          expect(Paypal.logger).not_to receive(:warn)
           response = request.checkout! 'token', 'payer_id', payment_request
-          response.billing_agreement.identifier.should == 'B-1XR87946TC504770W'
+          expect(response.billing_agreement.identifier).to eq('B-1XR87946TC504770W')
         end
       end
     end
@@ -119,9 +119,9 @@ describe Paypal::NVP::Response do
       end
 
       it 'should handle all attributes' do
-        Paypal.logger.should_not_receive(:warn)
+        expect(Paypal.logger).not_to receive(:warn)
         response = request.subscribe! 'token', recurring_profile
-        response.recurring.identifier.should == 'I-L8N58XFUCET3'
+        expect(response.recurring.identifier).to eq('I-L8N58XFUCET3')
       end
     end
 
@@ -131,11 +131,11 @@ describe Paypal::NVP::Response do
       end
 
       it 'should handle all attributes' do
-        Paypal.logger.should_not_receive(:warn)
+        expect(Paypal.logger).not_to receive(:warn)
         response = request.subscription 'profile_id'
-        response.recurring.billing.amount.total.should == 1000
-        response.recurring.regular_billing.paid.should == 1000
-        response.recurring.summary.next_billing_date.should == '2011-03-04T10:00:00Z'
+        expect(response.recurring.billing.amount.total).to eq(1000)
+        expect(response.recurring.regular_billing.paid).to eq(1000)
+        expect(response.recurring.summary.next_billing_date).to eq('2011-03-04T10:00:00Z')
       end
     end
 
@@ -145,7 +145,7 @@ describe Paypal::NVP::Response do
       end
 
       it 'should handle all attributes' do
-        Paypal.logger.should_not_receive(:warn)
+        expect(Paypal.logger).not_to receive(:warn)
         request.renew! 'profile_id', :Cancel
       end
     end
@@ -156,7 +156,7 @@ describe Paypal::NVP::Response do
       end
 
       it 'should handle all attributes' do
-        Paypal.logger.should_not_receive(:warn)
+        expect(Paypal.logger).not_to receive(:warn)
         request.refund! 'transaction-id'
       end
     end

@@ -9,7 +9,7 @@ describe Paypal::Payment::Response::Payer do
     it 'should allow nil for attributes' do
       payer = Paypal::Payment::Response::Payer.new
       keys.each do |key|
-        payer.send(key).should be_nil
+        expect(payer.send(key)).to be_nil
       end
     end
 
@@ -19,7 +19,7 @@ describe Paypal::Payment::Response::Payer do
       end
       payer = Paypal::Payment::Response::Payer.new attributes
       keys.each do |key|
-        payer.send(key).should == "xyz"
+        expect(payer.send(key)).to eq("xyz")
       end
     end
   end

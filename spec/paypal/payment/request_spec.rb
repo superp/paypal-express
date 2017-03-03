@@ -46,30 +46,30 @@ describe Paypal::Payment::Request do
 
   describe '.new' do
     it 'should handle Instant Payment parameters' do
-      instant_request.amount.total.should == 25.7
-      instant_request.amount.tax.should == 0.4
-      instant_request.amount.shipping.should == 1.5
-      instant_request.currency_code.should == :JPY
-      instant_request.description.should == 'Instant Payment Request'
-      instant_request.notify_url.should == 'http://merchant.example.com/notify'
+      expect(instant_request.amount.total).to eq(25.7)
+      expect(instant_request.amount.tax).to eq(0.4)
+      expect(instant_request.amount.shipping).to eq(1.5)
+      expect(instant_request.currency_code).to eq(:JPY)
+      expect(instant_request.description).to eq('Instant Payment Request')
+      expect(instant_request.notify_url).to eq('http://merchant.example.com/notify')
     end
 
     it 'should handle Recurring Payment parameters' do
-      recurring_request.currency_code.should == :JPY
-      recurring_request.billing_type.should == :RecurringPayments
-      recurring_request.billing_agreement_description.should == 'Recurring Payment Request'
+      expect(recurring_request.currency_code).to eq(:JPY)
+      expect(recurring_request.billing_type).to eq(:RecurringPayments)
+      expect(recurring_request.billing_agreement_description).to eq('Recurring Payment Request')
     end
 
     it 'should handle Recurring Payment parameters' do
-      reference_transaction_request.currency_code.should == :JPY
-      reference_transaction_request.billing_type.should == :MerchantInitiatedBillingSingleAgreement
-      reference_transaction_request.billing_agreement_description.should == 'Reference Transaction Request'
+      expect(reference_transaction_request.currency_code).to eq(:JPY)
+      expect(reference_transaction_request.billing_type).to eq(:MerchantInitiatedBillingSingleAgreement)
+      expect(reference_transaction_request.billing_agreement_description).to eq('Reference Transaction Request')
     end
   end
 
   describe '#to_params' do
     it 'should handle Instant Payment parameters' do
-      instant_request.to_params.should == {
+      expect(instant_request.to_params).to eq({
         :PAYMENTREQUEST_0_AMT => "25.70",
         :PAYMENTREQUEST_0_TAXAMT => "0.40",
         :PAYMENTREQUEST_0_SHIPPINGAMT => "1.50",
@@ -88,29 +88,29 @@ describe Paypal::Payment::Request do
         :L_PAYMENTREQUEST_0_AMT1 => "1.10",
         :L_PAYMENTREQUEST_0_QTY1 => 3,
         :L_SURVEYCHOICE0 => 'abcd' # Note the 'n' was replaced by the index
-      }
+      })
     end
 
     it 'should handle Recurring Payment parameters' do
-      recurring_request.to_params.should == {
+      expect(recurring_request.to_params).to eq({
         :PAYMENTREQUEST_0_AMT => "0.00",
         :PAYMENTREQUEST_0_TAXAMT => "0.00",
         :PAYMENTREQUEST_0_SHIPPINGAMT => "0.00",
         :PAYMENTREQUEST_0_CURRENCYCODE => :JPY,
         :L_BILLINGTYPE0 => :RecurringPayments,
         :L_BILLINGAGREEMENTDESCRIPTION0 => "Recurring Payment Request"
-      }
+      })
     end
 
     it 'should handle Reference Transactions parameters' do
-      reference_transaction_request.to_params.should == {
+      expect(reference_transaction_request.to_params).to eq({
         :PAYMENTREQUEST_0_AMT => "0.00",
         :PAYMENTREQUEST_0_TAXAMT => "0.00",
         :PAYMENTREQUEST_0_SHIPPINGAMT => "0.00",
         :PAYMENTREQUEST_0_CURRENCYCODE => :JPY,
         :L_BILLINGTYPE0 => :MerchantInitiatedBillingSingleAgreement,
         :L_BILLINGAGREEMENTDESCRIPTION0 => "Reference Transaction Request"
-      }
+      })
     end
   end
 
@@ -130,7 +130,7 @@ describe Paypal::Payment::Request do
     # NOTE:
     # 130.45 * 3 => 391.34999999999997 (in ruby 1.9)
     it 'should calculate total amount correctly' do
-      instance.items_amount.should == 391.35
+      expect(instance.items_amount).to eq(391.35)
     end
   end
 end

@@ -31,18 +31,18 @@ describe Paypal::NVP::Request do
       it 'should succeed' do
         expect do
           Paypal::NVP::Request.new attributes
-        end.not_to raise_error AttrRequired::AttrMissing
+        end.not_to raise_error
       end
 
       it 'should setup endpoint and version' do
         client = Paypal::NVP::Request.new attributes
-        client.class.endpoint.should == Paypal::NVP::Request::ENDPOINT[:production]
+        expect(client.class.endpoint).to eq(Paypal::NVP::Request::ENDPOINT[:production])
       end
 
       it 'should support sandbox mode' do
         sandbox_mode do
           client = Paypal::NVP::Request.new attributes
-          client.class.endpoint.should == Paypal::NVP::Request::ENDPOINT[:sandbox]
+          expect(client.class.endpoint).to eq(Paypal::NVP::Request::ENDPOINT[:sandbox])
         end
       end
     end
@@ -54,7 +54,7 @@ describe Paypal::NVP::Request do
 
       it 'should setup subject' do
         client = Paypal::NVP::Request.new attributes.merge(optional_attributes)
-        client.subject.should == 'user@example.com'
+        expect(client.subject).to eq('user@example.com')
       end
     end
   end
@@ -69,11 +69,11 @@ describe Paypal::NVP::Request do
       [:version, :version]
     ].each do |method, param_key|
       it "should include :#{param_key}" do
-        instance.common_params.should include(param_key)
+        expect(instance.common_params).to include(param_key)
       end
 
       it "should set :#{param_key} to return of ##{method}" do
-        instance.common_params[param_key].should == instance.send(method)
+        expect(instance.common_params[param_key]).to eq(instance.send(method))
       end
     end
   end

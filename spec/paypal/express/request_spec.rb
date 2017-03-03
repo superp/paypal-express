@@ -97,7 +97,7 @@ describe Paypal::Express::Request do
       it 'should succeed' do
         expect do
           Paypal::Express::Request.new attributes
-        end.not_to raise_error AttrRequired::AttrMissing
+        end.not_to raise_error
       end
     end
   end
@@ -106,15 +106,15 @@ describe Paypal::Express::Request do
     it 'should return Paypal::Express::Response' do
       fake_response 'SetExpressCheckout/success'
       response = instance.setup recurring_payment_request, return_url, cancel_url
-      response.should be_instance_of Paypal::Express::Response
+      expect(response).to be_instance_of Paypal::Express::Response
     end
 
     it 'should support no_shipping option' do
       expect do
         instance.setup instant_payment_request, return_url, cancel_url, :no_shipping => true
       end.to request_to nvp_endpoint, :post
-      instance._method_.should == :SetExpressCheckout
-      instance._sent_params_.should == {
+      expect(instance._method_).to eq(:SetExpressCheckout)
+      expect(instance._sent_params_).to eq({
         :PAYMENTREQUEST_0_DESC => 'Instant Payment Request',
         :RETURNURL => return_url,
         :CANCELURL => cancel_url,
@@ -123,15 +123,15 @@ describe Paypal::Express::Request do
         :PAYMENTREQUEST_0_SHIPPINGAMT => "0.00",
         :REQCONFIRMSHIPPING => 0,
         :NOSHIPPING => 1
-      }
+      })
     end
 
     it 'should support allow_note=false option' do
       expect do
         instance.setup instant_payment_request, return_url, cancel_url, :allow_note => false
       end.to request_to nvp_endpoint, :post
-      instance._method_.should == :SetExpressCheckout
-      instance._sent_params_.should == {
+      expect(instance._method_).to eq(:SetExpressCheckout)
+      expect(instance._sent_params_).to eq({
         :PAYMENTREQUEST_0_DESC => 'Instant Payment Request',
         :RETURNURL => return_url,
         :CANCELURL => cancel_url,
@@ -139,7 +139,7 @@ describe Paypal::Express::Request do
         :PAYMENTREQUEST_0_TAXAMT => "0.00",
         :PAYMENTREQUEST_0_SHIPPINGAMT => "0.00",
         :ALLOWNOTE => 0
-      }
+      })
     end
 
     {
@@ -156,9 +156,9 @@ describe Paypal::Express::Request do
         expect do
           instance.setup instant_payment_request, return_url, cancel_url, option_key => 'some value'
         end.to request_to nvp_endpoint, :post
-        instance._method_.should == :SetExpressCheckout
-        instance._sent_params_.should include param_key
-        instance._sent_params_[param_key].should == 'some value'
+        expect(instance._method_).to eq(:SetExpressCheckout)
+        expect(instance._sent_params_).to include param_key
+        expect(instance._sent_params_[param_key]).to eq('some value')
       end
     end
 
@@ -167,15 +167,15 @@ describe Paypal::Express::Request do
         expect do
           instance.setup instant_payment_request, return_url, cancel_url
         end.to request_to nvp_endpoint, :post
-        instance._method_.should == :SetExpressCheckout
-        instance._sent_params_.should == {
+        expect(instance._method_).to eq(:SetExpressCheckout)
+        expect(instance._sent_params_).to eq({
           :PAYMENTREQUEST_0_DESC => 'Instant Payment Request',
           :RETURNURL => return_url,
           :CANCELURL => cancel_url,
           :PAYMENTREQUEST_0_AMT => '1000.00',
           :PAYMENTREQUEST_0_TAXAMT => "0.00",
           :PAYMENTREQUEST_0_SHIPPINGAMT => "0.00"
-        }
+        })
       end
     end
 
@@ -184,8 +184,8 @@ describe Paypal::Express::Request do
         expect do
           instance.setup recurring_payment_request, return_url, cancel_url
         end.to request_to nvp_endpoint, :post
-        instance._method_.should == :SetExpressCheckout
-        instance._sent_params_.should == {
+        expect(instance._method_).to eq(:SetExpressCheckout)
+        expect(instance._sent_params_).to eq({
           :L_BILLINGTYPE0 => :RecurringPayments,
           :L_BILLINGAGREEMENTDESCRIPTION0 => 'Recurring Payment Request',
           :RETURNURL => return_url,
@@ -193,7 +193,7 @@ describe Paypal::Express::Request do
           :PAYMENTREQUEST_0_AMT => '0.00',
           :PAYMENTREQUEST_0_TAXAMT => "0.00",
           :PAYMENTREQUEST_0_SHIPPINGAMT => "0.00"
-        }
+        })
       end
     end
 
@@ -202,8 +202,8 @@ describe Paypal::Express::Request do
         expect do
           instance.setup reference_transaction_request, return_url, cancel_url
         end.to request_to nvp_endpoint, :post
-        instance._method_.should == :SetExpressCheckout
-        instance._sent_params_.should == {
+        expect(instance._method_).to eq(:SetExpressCheckout)
+        expect(instance._sent_params_).to eq({
           :L_BILLINGTYPE0 => :MerchantInitiatedBilling,
           :L_BILLINGAGREEMENTDESCRIPTION0 => 'Billing Agreement Request',
           :RETURNURL => return_url,
@@ -211,7 +211,7 @@ describe Paypal::Express::Request do
           :PAYMENTREQUEST_0_AMT => '0.00',
           :PAYMENTREQUEST_0_TAXAMT => "0.00",
           :PAYMENTREQUEST_0_SHIPPINGAMT => "0.00"
-        }
+        })
       end
     end
   end
@@ -220,15 +220,15 @@ describe Paypal::Express::Request do
     it 'should return Paypal::Express::Response' do
       fake_response 'GetExpressCheckoutDetails/success'
       response = instance.details 'token'
-      response.should be_instance_of Paypal::Express::Response
+      expect(response).to be_instance_of Paypal::Express::Response
     end
 
     it 'should call GetExpressCheckoutDetails' do
       expect do
         instance.details 'token'
       end.to request_to nvp_endpoint, :post
-      instance._method_.should == :GetExpressCheckoutDetails
-      instance._sent_params_.should == { TOKEN: 'token' }
+      expect(instance._method_).to eq(:GetExpressCheckoutDetails)
+      expect(instance._sent_params_).to eq({ TOKEN: 'token' })
     end
   end
 
@@ -236,17 +236,17 @@ describe Paypal::Express::Request do
     it 'should return Paypal::Express::Response' do
       fake_response 'GetTransactionDetails/success'
       response = instance.transaction_details 'transaction_id'
-      response.should be_instance_of Paypal::Express::Response
+      expect(response).to be_instance_of Paypal::Express::Response
     end
 
     it 'should call GetTransactionDetails' do
       expect do
         instance.transaction_details 'transaction_id'
       end.to request_to nvp_endpoint, :post
-      instance._method_.should == :GetTransactionDetails
-      instance._sent_params_.should == {
+      expect(instance._method_).to eq(:GetTransactionDetails)
+      expect(instance._sent_params_).to eq({
         :TRANSACTIONID=> 'transaction_id'
-      }
+      })
     end
 
     it 'should fail with bad transaction id' do
@@ -257,7 +257,7 @@ describe Paypal::Express::Request do
     end
 
     it 'should handle all attributes' do
-      Paypal.logger.should_not_receive(:warn)
+      expect(Paypal.logger).not_to receive(:warn)
       fake_response 'GetTransactionDetails/success'
       response = instance.transaction_details 'transaction_id'
     end
@@ -267,7 +267,7 @@ describe Paypal::Express::Request do
     it 'should return Paypal::Express::Response' do
       fake_response 'DoCapture/success'
       response = instance.capture! 'authorization_id', 181.98, :BRL
-      response.should be_instance_of Paypal::Express::Response
+      expect(response).to be_instance_of Paypal::Express::Response
     end
 
     it 'should call DoExpressCheckoutPayment' do
@@ -275,13 +275,13 @@ describe Paypal::Express::Request do
         instance.capture! 'authorization_id', 181.98, :BRL
       end.to request_to nvp_endpoint, :post
 
-      instance._method_.should == :DoCapture
-      instance._sent_params_.should == {
+      expect(instance._method_).to eq(:DoCapture)
+      expect(instance._sent_params_).to eq({
         :AUTHORIZATIONID => 'authorization_id',
         :COMPLETETYPE => 'Complete',
         :AMT => 181.98,
         :CURRENCYCODE => :BRL
-      }
+      })
     end
 
     it 'should call DoExpressCheckoutPayment with NotComplete capture parameter' do
@@ -289,13 +289,13 @@ describe Paypal::Express::Request do
         instance.capture! 'authorization_id', 181.98, :BRL, 'NotComplete'
       end.to request_to nvp_endpoint, :post
 
-      instance._method_.should == :DoCapture
-      instance._sent_params_.should == {
+      expect(instance._method_).to eq(:DoCapture)
+      expect(instance._sent_params_).to eq({
         :AUTHORIZATIONID => 'authorization_id',
         :COMPLETETYPE => 'NotComplete',
         :AMT => 181.98,
         :CURRENCYCODE => :BRL
-      }
+      })
     end
   end
 
@@ -303,7 +303,7 @@ describe Paypal::Express::Request do
     it 'should return Paypal::Express::Response' do
       fake_response 'DoVoid/success'
       response = instance.void! 'authorization_id', note: "note"
-      response.should be_instance_of Paypal::Express::Response
+      expect(response).to be_instance_of Paypal::Express::Response
     end
 
     it 'should call DoVoid' do
@@ -311,11 +311,11 @@ describe Paypal::Express::Request do
         instance.void! 'authorization_id', note: "note"
       end.to request_to nvp_endpoint, :post
 
-      instance._method_.should == :DoVoid
-      instance._sent_params_.should == {
+      expect(instance._method_).to eq(:DoVoid)
+      expect(instance._sent_params_).to eq({
         :AUTHORIZATIONID => 'authorization_id',
         :NOTE => "note"
-      }
+      })
     end
   end
 
@@ -323,22 +323,22 @@ describe Paypal::Express::Request do
     it 'should return Paypal::Express::Response' do
       fake_response 'DoExpressCheckoutPayment/success'
       response = instance.checkout! 'token', 'payer_id', instant_payment_request
-      response.should be_instance_of Paypal::Express::Response
+      expect(response).to be_instance_of Paypal::Express::Response
     end
 
     it 'should call DoExpressCheckoutPayment' do
       expect do
         instance.checkout! 'token', 'payer_id', instant_payment_request
       end.to request_to nvp_endpoint, :post
-      instance._method_.should == :DoExpressCheckoutPayment
-      instance._sent_params_.should == {
+      expect(instance._method_).to eq(:DoExpressCheckoutPayment)
+      expect(instance._sent_params_).to eq({
         :PAYERID => 'payer_id',
         :TOKEN => 'token',
         :PAYMENTREQUEST_0_DESC => 'Instant Payment Request',
         :PAYMENTREQUEST_0_AMT => '1000.00',
         :PAYMENTREQUEST_0_TAXAMT => "0.00",
         :PAYMENTREQUEST_0_SHIPPINGAMT => "0.00"
-      }
+      })
     end
 
     context "with many items" do
@@ -347,19 +347,19 @@ describe Paypal::Express::Request do
       end
 
       it 'should handle all attributes' do
-        Paypal.logger.should_not_receive(:warn)
+        expect(Paypal.logger).not_to receive(:warn)
         response = instance.checkout! 'token', 'payer_id', instant_payment_request_with_many_items
       end
 
       it 'should return Paypal::Express::Response' do
         response = instance.checkout! 'token', 'payer_id', instant_payment_request_with_many_items
-        response.should be_instance_of Paypal::Express::Response
+        expect(response).to be_instance_of Paypal::Express::Response
       end
 
       it 'should return twenty items' do
         response = instance.checkout! 'token', 'payer_id', instant_payment_request_with_many_items
-        instance._method_.should == :DoExpressCheckoutPayment
-        response.items.count.should == 20
+        expect(instance._method_).to eq(:DoExpressCheckoutPayment)
+        expect(response.items.count).to eq(20)
       end
     end
   end
@@ -368,15 +368,15 @@ describe Paypal::Express::Request do
     it 'should return Paypal::Express::Response' do
       fake_response 'CreateRecurringPaymentsProfile/success'
       response = instance.subscribe! 'token', recurring_profile
-      response.should be_instance_of Paypal::Express::Response
+      expect(response).to be_instance_of Paypal::Express::Response
     end
 
     it 'should call CreateRecurringPaymentsProfile' do
       expect do
         instance.subscribe! 'token', recurring_profile
       end.to request_to nvp_endpoint, :post
-      instance._method_.should == :CreateRecurringPaymentsProfile
-      instance._sent_params_.should == {
+      expect(instance._method_).to eq(:CreateRecurringPaymentsProfile)
+      expect(instance._sent_params_).to eq({
         :DESC => 'Recurring Profile',
         :TOKEN => 'token',
         :SHIPPINGAMT => '0.00',
@@ -387,7 +387,7 @@ describe Paypal::Express::Request do
         :TAXAMT => '0.00',
         :PROFILESTARTDATE => '2011-02-08 09:00:00',
         :TOTALBILLINGCYCLES => 0
-      }
+      })
     end
   end
 
@@ -395,15 +395,15 @@ describe Paypal::Express::Request do
     it 'should return Paypal::Express::Response' do
       fake_response 'GetRecurringPaymentsProfileDetails/success'
       response = instance.subscription 'profile_id'
-      response.should be_instance_of(Paypal::Express::Response)
+      expect(response).to be_instance_of(Paypal::Express::Response)
     end
 
     it 'should call GetRecurringPaymentsProfileDetails' do
       expect do
         instance.subscription 'profile_id'
       end.to request_to nvp_endpoint, :post
-      instance._method_.should == :GetRecurringPaymentsProfileDetails
-      instance._sent_params_.should == { PROFILEID: 'profile_id' }
+      expect(instance._method_).to eq(:GetRecurringPaymentsProfileDetails)
+      expect(instance._sent_params_).to eq({ PROFILEID: 'profile_id' })
     end
   end
 
@@ -411,18 +411,18 @@ describe Paypal::Express::Request do
     it 'should return Paypal::Express::Response' do
       fake_response 'ManageRecurringPaymentsProfileStatus/success'
       response = instance.renew! 'profile_id', :Cancel
-      response.should be_instance_of Paypal::Express::Response
+      expect(response).to be_instance_of Paypal::Express::Response
     end
 
     it 'should call ManageRecurringPaymentsProfileStatus' do
       expect do
         instance.renew! 'profile_id', :Cancel
       end.to request_to nvp_endpoint, :post
-      instance._method_.should == :ManageRecurringPaymentsProfileStatus
-      instance._sent_params_.should == {
+      expect(instance._method_).to eq(:ManageRecurringPaymentsProfileStatus)
+      expect(instance._sent_params_).to eq({
         :ACTION => :Cancel,
         :PROFILEID => 'profile_id'
-      }
+      })
     end
   end
 
@@ -430,18 +430,18 @@ describe Paypal::Express::Request do
     it 'should return Paypal::Express::Response' do
       fake_response 'ManageRecurringPaymentsProfileStatus/success'
       response = instance.cancel! 'profile_id'
-      response.should be_instance_of(Paypal::Express::Response)
+      expect(response).to be_instance_of(Paypal::Express::Response)
     end
 
     it 'should call ManageRecurringPaymentsProfileStatus' do
       expect do
         instance.cancel! 'profile_id'
       end.to request_to nvp_endpoint, :post
-      instance._method_.should == :ManageRecurringPaymentsProfileStatus
-      instance._sent_params_.should == {
+      expect(instance._method_).to eq(:ManageRecurringPaymentsProfileStatus)
+      expect(instance._sent_params_).to eq({
         :ACTION => :Cancel,
         :PROFILEID => 'profile_id'
-      }
+      })
     end
   end
 
@@ -449,18 +449,18 @@ describe Paypal::Express::Request do
     it 'should return Paypal::Express::Response' do
       fake_response 'ManageRecurringPaymentsProfileStatus/success'
       response = instance.cancel! 'profile_id'
-      response.should be_instance_of Paypal::Express::Response
+      expect(response).to be_instance_of Paypal::Express::Response
     end
 
     it 'should call ManageRecurringPaymentsProfileStatus' do
       expect do
         instance.suspend! 'profile_id'
       end.to request_to nvp_endpoint, :post
-      instance._method_.should == :ManageRecurringPaymentsProfileStatus
-      instance._sent_params_.should == {
+      expect(instance._method_).to eq(:ManageRecurringPaymentsProfileStatus)
+      expect(instance._sent_params_).to eq({
         :ACTION => :Suspend,
         :PROFILEID => 'profile_id'
-      }
+      })
     end
   end
 
@@ -468,18 +468,18 @@ describe Paypal::Express::Request do
     it 'should return Paypal::Express::Response' do
       fake_response 'ManageRecurringPaymentsProfileStatus/success'
       response = instance.cancel! 'profile_id'
-      response.should be_instance_of Paypal::Express::Response
+      expect(response).to be_instance_of Paypal::Express::Response
     end
 
     it 'should call ManageRecurringPaymentsProfileStatus' do
       expect do
         instance.reactivate! 'profile_id'
       end.to request_to nvp_endpoint, :post
-      instance._method_.should == :ManageRecurringPaymentsProfileStatus
-      instance._sent_params_.should == {
+      expect(instance._method_).to eq(:ManageRecurringPaymentsProfileStatus)
+      expect(instance._sent_params_).to eq({
         :ACTION => :Reactivate,
         :PROFILEID => 'profile_id'
-      }
+      })
     end
   end
 
@@ -487,15 +487,15 @@ describe Paypal::Express::Request do
     it 'should return Paypal::Express::Response' do
       fake_response 'CreateBillingAgreement/success'
       response = instance.agree! 'token'
-      response.should be_instance_of Paypal::Express::Response
+      expect(response).to be_instance_of Paypal::Express::Response
     end
 
     it 'should call CreateBillingAgreement' do
       expect do
         instance.agree! 'token'
       end.to request_to nvp_endpoint, :post
-      instance._method_.should == :CreateBillingAgreement
-      instance._sent_params_.should == { TOKEN: 'token' }
+      expect(instance._method_).to eq(:CreateBillingAgreement)
+      expect(instance._sent_params_).to eq({ TOKEN: 'token' })
     end
   end
 
@@ -503,17 +503,17 @@ describe Paypal::Express::Request do
     it 'should return Paypal::Express::Response' do
       fake_response 'BillAgreementUpdate/fetch'
       response = instance.agreement 'reference_id'
-      response.should be_instance_of Paypal::Express::Response
+      expect(response).to be_instance_of Paypal::Express::Response
     end
 
     it 'should call BillAgreementUpdate' do
       expect do
         instance.agreement 'reference_id'
       end.to request_to nvp_endpoint, :post
-      instance._method_.should == :BillAgreementUpdate
-      instance._sent_params_.should == {
+      expect(instance._method_).to eq(:BillAgreementUpdate)
+      expect(instance._sent_params_).to eq({
         :REFERENCEID => 'reference_id'
-      }
+      })
     end
   end
 
@@ -521,20 +521,20 @@ describe Paypal::Express::Request do
     it 'should return Paypal::Express::Response' do
       fake_response 'DoReferenceTransaction/success'
       response = instance.charge! 'billing_agreement_id', 1000
-      response.should be_instance_of Paypal::Express::Response
+      expect(response).to be_instance_of Paypal::Express::Response
     end
 
     it 'should call DoReferenceTransaction' do
       expect do
         instance.charge! 'billing_agreement_id', 1000, :currency_code => :JPY
       end.to request_to nvp_endpoint, :post
-      instance._method_.should == :DoReferenceTransaction
-      instance._sent_params_.should == {
+      expect(instance._method_).to eq(:DoReferenceTransaction)
+      expect(instance._sent_params_).to eq({
         :REFERENCEID => 'billing_agreement_id',
         :AMT => '1000.00',
         :PAYMENTACTION => :Sale,
         :CURRENCYCODE => :JPY
-      }
+      })
     end
   end
 
@@ -542,18 +542,18 @@ describe Paypal::Express::Request do
     it 'should return Paypal::Express::Response' do
       fake_response 'BillAgreementUpdate/revoke'
       response = instance.revoke! 'reference_id'
-      response.should be_instance_of Paypal::Express::Response
+      expect(response).to be_instance_of Paypal::Express::Response
     end
 
     it 'should call BillAgreementUpdate' do
       expect do
         instance.revoke! 'reference_id'
       end.to request_to nvp_endpoint, :post
-      instance._method_.should == :BillAgreementUpdate
-      instance._sent_params_.should == {
+      expect(instance._method_).to eq(:BillAgreementUpdate)
+      expect(instance._sent_params_).to eq({
         :REFERENCEID => 'reference_id',
         :BillingAgreementStatus => :Canceled
-      }
+      })
     end
   end
 
@@ -561,18 +561,18 @@ describe Paypal::Express::Request do
     it 'should return Paypal::Express::Response' do
       fake_response 'RefundTransaction/full'
       response = instance.refund! 'transaction_id'
-      response.should be_instance_of Paypal::Express::Response
+      expect(response).to be_instance_of Paypal::Express::Response
     end
 
     it 'should call RefundTransaction' do
       expect do
         instance.refund! 'transaction_id'
       end.to request_to nvp_endpoint, :post
-      instance._method_.should == :RefundTransaction
-      instance._sent_params_.should == {
+      expect(instance._method_).to eq(:RefundTransaction)
+      expect(instance._sent_params_).to eq({
         :TRANSACTIONID => 'transaction_id',
         :REFUNDTYPE => :Full
-      }
+      })
     end
   end
 end

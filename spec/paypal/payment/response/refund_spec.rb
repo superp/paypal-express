@@ -10,7 +10,11 @@ describe Paypal::Payment::Response::Refund do
 
   describe '.new' do
     subject { Paypal::Payment::Response::Refund.new(attributes) }
-    its(:transaction_id) { should eq '0000000000000000L' }
+
+    describe '#transaction_id' do
+      subject { super().transaction_id }
+      it { is_expected.to eq '0000000000000000L' }
+    end
 
     it 'stores refund information in info' do
       info = double(Paypal::Payment::Response::RefundInfo)

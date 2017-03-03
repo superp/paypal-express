@@ -13,7 +13,7 @@ describe Paypal::Express::Response do
     )
   end
   let :payment_request do
-    Paypal::Payment::Request.new( 
+    Paypal::Payment::Request.new(
       :billing_type => :RecurringPayments,
       :billing_agreement_description => 'Recurring Payment Request'
     )
@@ -22,29 +22,38 @@ describe Paypal::Express::Response do
 
   describe '#redirect_uri' do
     subject { response.redirect_uri }
-    it { should include 'https://www.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=' }
+    it { is_expected.to include 'https://www.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=' }
   end
 
   describe '#popup_uri' do
     subject { response.popup_uri }
-    it { should include 'https://www.paypal.com/incontext?token=' }
+    it { is_expected.to include 'https://www.paypal.com/incontext?token=' }
   end
 
   context 'when pay_on_paypal option is given' do
     let(:response) { request.setup payment_request, return_url, cancel_url, :pay_on_paypal => true }
 
     subject { response }
-    its(:pay_on_paypal) { should be_true }
-    its(:query) { should include(:useraction => 'commit') }
+
+    describe '#pay_on_paypal' do
+      subject { super().pay_on_paypal }
+      it { is_expected.to be_truthy }
+    end
+
+    describe '#query' do
+      # FIXME spec on private method
+      subject { super().send(:query) }
+      it { is_expected.to include(:useraction => 'commit') }
+    end
 
     describe '#redirect_uri' do
       subject { response.redirect_uri }
-      it { should include 'useraction=commit' }
+      it { is_expected.to include 'useraction=commit' }
     end
 
     describe '#popup_uri' do
       subject { response.popup_uri }
-      it { should include 'useraction=commit' }
+      it { is_expected.to include 'useraction=commit' }
     end
   end
 
@@ -57,12 +66,12 @@ describe Paypal::Express::Response do
 
     describe '#redirect_uri' do
       subject { response.redirect_uri }
-      it { should include 'https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=' }
+      it { is_expected.to include 'https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=' }
     end
 
     describe '#popup_uri' do
       subject { response.popup_uri }
-      it { should include 'https://www.sandbox.paypal.com/incontext?token=' }
+      it { is_expected.to include 'https://www.sandbox.paypal.com/incontext?token=' }
     end
   end
 
@@ -73,7 +82,7 @@ describe Paypal::Express::Response do
 
     describe '#redirect_uri' do
       subject { response.redirect_uri }
-      it { should include 'https://www.paypal.com/cgi-bin/webscr?cmd=_express-checkout-mobile&token=' }
+      it { is_expected.to include 'https://www.paypal.com/cgi-bin/webscr?cmd=_express-checkout-mobile&token=' }
     end
   end
 

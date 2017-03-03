@@ -61,11 +61,11 @@ describe Paypal::Payment::Recurring do
 
   describe '.new' do
     it 'should accept all supported attributes' do
-      instance.identifier.should == '12345'
-      instance.description.should == 'Subscription Payment Profile'
-      instance.status.should == 'Active'
-      instance.start_date.should == '2011-02-03T15:00:00Z'
-      instance.billing.trial.should be_nil
+      expect(instance.identifier).to eq('12345')
+      expect(instance.description).to eq('Subscription Payment Profile')
+      expect(instance.status).to eq('Active')
+      expect(instance.start_date).to eq('2011-02-03T15:00:00Z')
+      expect(instance.billing.trial).to be_nil
     end
 
     context 'when optional trial info given' do
@@ -81,14 +81,14 @@ describe Paypal::Payment::Recurring do
         }
       end
       it 'should setup trial billing info' do
-        instance.billing.trial.should == Paypal::Payment::Recurring::Billing.new(trial_attributes)
+        expect(instance.billing.trial).to eq(Paypal::Payment::Recurring::Billing.new(trial_attributes))
       end
     end
   end
 
   describe '#to_params' do
     it 'should handle Recurring Profile parameters' do
-      instance.to_params.should == {
+      expect(instance.to_params).to eq({
         :AUTOBILLOUTAMT => 'NoAutoBill',
         :BILLINGFREQUENCY => 1,
         :SHIPPINGAMT => '0.00',
@@ -101,7 +101,7 @@ describe Paypal::Payment::Recurring do
         :TAXAMT => '0.00',
         :PROFILESTARTDATE => '2011-02-03T15:00:00Z',
         :CURRENCYCODE => 'JPY'
-      }
+      })
     end
 
     context 'when start_date is Time' do
@@ -109,8 +109,8 @@ describe Paypal::Payment::Recurring do
         instance = Paypal::Payment::Recurring.new attributes.merge(
           :start_date => Time.utc(2011, 2, 8, 15, 0, 0)
         )
-        instance.start_date.should be_instance_of(Time)
-        instance.to_params[:PROFILESTARTDATE].should == '2011-02-08 15:00:00'
+        expect(instance.start_date).to be_instance_of(Time)
+        expect(instance.to_params[:PROFILESTARTDATE]).to eq('2011-02-08 15:00:00')
       end
     end
 
@@ -127,7 +127,7 @@ describe Paypal::Payment::Recurring do
         }
       end
       it 'should setup trial billing info' do
-        instance.to_params.should == {
+        expect(instance.to_params).to eq({
           :TRIALBILLINGPERIOD => "Month",
           :TRIALBILLINGFREQUENCY => 1,
           :TRIALTOTALBILLINGCYCLES => 0,
@@ -147,7 +147,7 @@ describe Paypal::Payment::Recurring do
           :AUTOBILLOUTAMT => "NoAutoBill",
           :PROFILESTARTDATE => "2011-02-03T15:00:00Z",
           :SUBSCRIBERNAME => "Nov Matake"
-        }
+        })
       end
     end
   end
@@ -159,11 +159,11 @@ describe Paypal::Payment::Recurring do
 
     it 'should detect numeric attributes' do
       numeric_attributes.each do |key|
-        instance.numeric_attribute?(key).should be_true
+        expect(instance.numeric_attribute?(key)).to be_truthy
       end
       non_numeric_keys = keys - numeric_attributes
       non_numeric_keys.each do |key|
-        instance.numeric_attribute?(key).should be_false
+        expect(instance.numeric_attribute?(key)).to be_falsey
       end
     end
   end

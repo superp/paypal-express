@@ -17,22 +17,58 @@ describe Paypal::Payment::Response::Info do
 
   describe '.new' do
     subject { Paypal::Payment::Response::Item.new(attributes) }
-    its(:name) { should == 'Item Name' }
-    its(:description) { should == 'Item Description' }
-    its(:quantity) { should == 1 }
-    its(:category) { should == 'Digital' }
-    its(:width) { should == '1.0' }
-    its(:height) { should == '2.0' }
-    its(:length) { should == '3.0' }
-    its(:weight) { should == '4.0' }
-    its(:number) { should == '1' }
+
+    describe '#name' do
+      subject { super().name }
+      it { is_expected.to eq('Item Name') }
+    end
+
+    describe '#description' do
+      subject { super().description }
+      it { is_expected.to eq('Item Description') }
+    end
+
+    describe '#quantity' do
+      subject { super().quantity }
+      it { is_expected.to eq(1) }
+    end
+
+    describe '#category' do
+      subject { super().category }
+      it { is_expected.to eq('Digital') }
+    end
+
+    describe '#width' do
+      subject { super().width }
+      it { is_expected.to eq('1.0') }
+    end
+
+    describe '#height' do
+      subject { super().height }
+      it { is_expected.to eq('2.0') }
+    end
+
+    describe '#length' do
+      subject { super().length }
+      it { is_expected.to eq('3.0') }
+    end
+
+    describe '#weight' do
+      subject { super().weight }
+      it { is_expected.to eq('4.0') }
+    end
+
+    describe '#number' do
+      subject { super().number }
+      it { is_expected.to eq('1') }
+    end
 
     context 'when non-supported attributes are given' do
       it 'should ignore them and warn' do
         _attr_ = attributes.merge(
           :ignored => 'Ignore me!'
         )
-        Paypal.logger.should_receive(:warn).with(
+        expect(Paypal.logger).to receive(:warn).with(
           "Ignored Parameter (Paypal::Payment::Response::Item): ignored=Ignore me!"
         )
         Paypal::Payment::Response::Item.new _attr_

@@ -9,6 +9,10 @@ describe Paypal::Payment::Response::RefundInfo do
 
   describe '.new' do
     subject { Paypal::Payment::Response::RefundInfo.new(attributes) }
-    its(:refund_status) { should eq 'Instant' }
+
+    describe '#refund_status' do
+      subject { super().refund_status }
+      it { is_expected.to eq 'Instant' }
+    end
   end
 end
