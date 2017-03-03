@@ -166,6 +166,7 @@ module Paypal
         end
         if attrs[:REFUNDTRANSACTIONID]
           @refund = Payment::Response::Refund.new(
+            :refund_status => attrs.delete(:REFUNDSTATUS),
             :transaction_id => attrs.delete(:REFUNDTRANSACTIONID),
             :amount => {
               :total => attrs.delete(:TOTALREFUNDEDAMOUNT),

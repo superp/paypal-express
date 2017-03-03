@@ -142,5 +142,16 @@ describe Paypal::NVP::Response do
         request.renew! 'profile_id', :Cancel
       end
     end
+
+    context 'when RefundTransaction response given' do
+      before do
+        fake_response 'RefundTransaction/full'
+      end
+
+      it 'should handle all attributes' do
+        Paypal.logger.should_not_receive(:warn)
+        request.refund! 'transaction-id'
+      end
+    end
   end
 end
