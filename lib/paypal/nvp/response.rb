@@ -156,7 +156,9 @@ module Paypal
           @billing_agreement = Payment::Response::Reference.new(
             :identifier => attrs.delete(:BILLINGAGREEMENTID),
             :description => attrs.delete(:BILLINGAGREEMENTDESCRIPTION),
-            :status => attrs.delete(:BILLINGAGREEMENTSTATUS)
+            status: attrs.delete(:BILLINGAGREEMENTSTATUS),
+            payee_email: attrs.delete(:PAYEEEMAIL),
+            payee_id: attrs.delete(:PAYEEID)
           )
           billing_agreement_info = Payment::Response::Info.attribute_mapping.keys.inject({}) do |billing_agreement_info, key|
             billing_agreement_info.merge! key => attrs.delete(key)

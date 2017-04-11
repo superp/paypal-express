@@ -160,5 +160,16 @@ describe Paypal::NVP::Response do
         request.refund! 'transaction-id'
       end
     end
+
+    context 'when BillAgreementUpdate (BAUpdate) cancellation response given' do
+      before do
+        fake_response 'BillAgreementUpdate/revoke'
+      end
+
+      it 'should handle all attributes' do
+        expect(Paypal.logger).not_to receive(:warn)
+        request.revoke! 'transaction-id'
+      end
+    end
   end
 end
