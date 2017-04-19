@@ -2,8 +2,7 @@ module Paypal
   module Util
 
     def self.formatted_amount(x)
-      # Thanks @nahi ;)
-      sprintf "%0.2f", BigDecimal.new(x.to_s).truncate(2)
+      sprintf "%0.2f", BigDecimal.new((x || 0).to_s).truncate(2)
     end
 
     def self.to_numeric(x)
