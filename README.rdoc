@@ -17,7 +17,7 @@ You can use this fork which is actively maintained to ensure it is working prope
 Add to your Gemfile
   gem 'paypal-express', github: 'ianfleeton/paypal-express'
 Or
-  gem 'ianfleeton-paypal-express'
+  gem 'ianfleeton-paypal-express', require: 'paypal'
 
 == Usage
 
