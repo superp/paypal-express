@@ -13,7 +13,7 @@ RSpec.configure do |config|
     Paypal.logger = double("logger")
   end
   config.after do
-    FakeWeb.clean_registry
+    WebMock.reset!
   end
 end
 

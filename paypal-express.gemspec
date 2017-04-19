@@ -19,5 +19,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rake", "~> 12.0.0"
   s.add_development_dependency "simplecov"
   s.add_development_dependency "rspec", "~> 3.5.0"
-  s.add_development_dependency "fakeweb", ">= 1.3.0"
+  s.add_development_dependency "webmock", "~> 3.0.1"
 end

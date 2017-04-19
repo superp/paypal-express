@@ -99,12 +99,8 @@ describe Paypal::NVP::Request do
 
     context 'when got HTTP error response' do
       before do
-        FakeWeb.register_uri(
-          :post,
-          Paypal::NVP::Request::ENDPOINT[:production],
-          :body => "Invalid Request",
-          :status => ["400", "Bad Request"]
-        )
+        stub_request(:post, Paypal::NVP::Request::ENDPOINT[:production])
+          .to_return(body: 'Invalid Request', status: 400)
       end
 
       it 'should raise Paypal::Exception::HttpError' do
