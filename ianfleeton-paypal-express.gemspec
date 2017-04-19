@@ -5,7 +5,7 @@ Gem::Specification.new do |s|
   s.authors = ["Ian Fleeton", "nov matake"]
   s.description = %q{PayPal Express Checkout API Client for Instance, Recurring and Digital Goods Payment.}
   s.summary = %q{PayPal Express Checkout API Client for Instance, Recurring and Digital Goods Payment.}
-  s.email = "nov@matake.jp"
+  s.email = 'ianfleeton@gmail.com'
   s.extra_rdoc_files = ["LICENSE", "README.rdoc"]
   s.rdoc_options = ["--charset=UTF-8"]
   s.homepage = "http://github.com/ianfleeton/paypal-express"
