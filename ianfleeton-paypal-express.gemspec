@@ -13,11 +13,11 @@ Gem::Specification.new do |s|
   s.executables = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.files = `git ls-files`.split("\n")
   s.test_files = `git ls-files -- {test,spec,features}/*`.split("\n")
-  s.add_dependency "activesupport", ">= 2.3"
-  s.add_dependency "rest-client"
-  s.add_dependency "attr_required", ">= 0.0.5"
-  s.add_development_dependency "rake", "~> 12.0.0"
-  s.add_development_dependency "simplecov"
-  s.add_development_dependency "rspec", "~> 3.5.0"
-  s.add_development_dependency "webmock", "~> 3.0.1"
+  s.add_dependency 'activesupport', '>= 2.3', '< 6'
+  s.add_dependency 'rest-client', '~> 0'
+  s.add_dependency 'attr_required', '~> 0.0', '>= 0.0.5'
+  s.add_development_dependency 'rake', '~> 12.0', '>= 12.0.0'
+  s.add_development_dependency 'simplecov', '~> 0'
+  s.add_development_dependency 'rspec', '~> 3.5', '>= 3.5.0'
+  s.add_development_dependency 'webmock', '~> 3.0', '>= 3.0.1'
 end
