@@ -12,8 +12,8 @@ module Paypal
 
       def message
         if response.respond_to?(:short_messages) && response.short_messages.any?
-          "PayPal API Error: " <<
-            response.short_messages.map{ |m| "'#{m}'" }.join(", ")
+          "PayPal API Error: " << response.inspect
+            #response.short_messages.map{ |m| "'#{m}'" }.join(", ")
         else
           "PayPal API Error"
         end
